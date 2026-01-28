@@ -1,0 +1,40 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.claude/
+
+# Données volumineuses (SAUF le sample 30k qui est inclus)
+data/sample/*.csv
+!data/sample/openfoodfacts-fr-sample-30000.csv
+data/bronze/
+data/silver/
+data/gold/
+
+# Logs
+logs/*.json
+reports/*.json
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (déjà copiée)
+*.md
+!README.md

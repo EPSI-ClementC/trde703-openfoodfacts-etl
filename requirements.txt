@@ -1,0 +1,9 @@
+# Requirements pour OpenFoodFacts ETL - TRDE703
+# Auteurs: Félicien, Charif, Clément
+# Python 3.9+
+
+pyspark==3.5.3
+pymysql==1.1.0
+pandas==2.1.4
+requests==2.31.0
+python-dotenv==1.0.0

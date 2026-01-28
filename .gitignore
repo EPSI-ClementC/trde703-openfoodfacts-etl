@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+venv-*/
+venv/
+env/
+ENV/
+
+# Données volumineuses (téléchargées par Docker)
+data/raw/*
+data/bronze/
+data/silver/
+data/gold/
+*.parquet
+*.crc
+
+# Logs et rapports (générés par le pipeline)
+logs/*.json
+reports/*.json
+*.log
+
+# CSV, JSON, JSONL volumineux SAUF le sample 50000
+*.csv
+!data/sample/openfoodfacts-fr-sample-30000.csv
+*.jsonl
+*.gz
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+.claude/
+
+# Tests (non inclus dans le rendu)
+tests/
+test/
+
+# NOTE: .env est INCLUS dans Git (credentials de test uniquement)

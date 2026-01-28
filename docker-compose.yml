@@ -1,0 +1,62 @@
+version: '3.8'
+
+# Projet OpenFoodFacts ETL - TRDE703
+# Auteurs: Félicien, Charif, Clément
+# Date: 25 janvier 2026
+
+services:
+  # Base de données MariaDB
+  mariadb:
+    image: mariadb:11.8
+    container_name: openfoodfacts-mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: root_password
+      MARIADB_DATABASE: openfoodfacts_dw
+      MARIADB_USER: etl_user
+      MARIADB_PASSWORD: ETL_Pass_2025!
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./sql/ddl:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - etl_network
+
+  # Application Spark ETL
+  spark-etl:
+    build: .
+    container_name: openfoodfacts-etl
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_NAME: openfoodfacts_dw
+      DB_USER: etl_user
+      DB_PASSWORD: ETL_Pass_2025!
+      SPARK_MASTER: local[4]
+      SPARK_DRIVER_MEMORY: 4g
+      SPARK_EXECUTOR_MEMORY: 4g
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+      - ./etl:/app/etl
+    networks:
+      - etl_network
+    command: tail -f /dev/null
+
+volumes:
+  mariadb_data:
+    driver: local
+
+networks:
+  etl_network:
+    driver: bridge
